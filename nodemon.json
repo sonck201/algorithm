@@ -1,0 +1,17 @@
+{
+  "delay": 200,
+  "ext": "js,mjs",
+  "ignore": [
+    ".git/*",
+    ".github/*",
+    ".vscode/*",
+    "coverage/*",
+    "logs/*",
+    "node_modules/*",
+    "src/*",
+    "tests/*",
+    "tmp/*",
+    "**/*.json",
+    "**/*.map"
+  ]
+}

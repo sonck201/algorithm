@@ -1,0 +1,35 @@
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.formatOnSave": false
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": false
+  },
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.formatOnSave": false
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.formatOnSave": false
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+  "search.exclude": {
+    "**/coverage": true,
+    "**/dist": true,
+    "**/node_modules": true
+  },
+  "typescript.referencesCodeLens.enabled": true
+}
