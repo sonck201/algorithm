@@ -6,7 +6,20 @@
       "protocol": "inspector",
       "request": "attach",
       "type": "node"
-    }
+    },
+    {
+      "name": "Algorithm dijkstra",
+      "program": "${workspaceFolder}/src/dijkstra.ts",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register/transpile-only",
+        "-r",
+        "tsconfig-paths/register",
+      ],
+      "type": "pwa-node",
+      "outputCapture": "std",
+    },
   ],
   "version": "0.2.0"
 }
