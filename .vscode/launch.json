@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "protocol": "inspector",
+      "request": "attach",
+      "type": "node"
+    }
+  ],
+  "version": "0.2.0"
+}

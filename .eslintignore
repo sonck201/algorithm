@@ -1,0 +1,11 @@
+/.git
+/.github
+/.vscode
+/coverage
+/dist
+/logs
+/node_modules
+/tmp
+
+**/*.log
+**/*.map
