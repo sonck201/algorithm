@@ -26,7 +26,14 @@
     "javascript",
     "typescript"
   ],
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/coverage": true,
+    "**/node_modules/": true
+  },
   "search.exclude": {
+    "**/*.lock": true,
     "**/coverage": true,
     "**/dist": true,
     "**/node_modules": true

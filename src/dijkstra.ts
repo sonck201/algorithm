@@ -1,94 +1,85 @@
-type IListNode = {
-  [vertex: string]: {
-    [vertex: string]: number
-  }
-}
-
-type IListPassedNode = {
+type INodeVertex = {
   [vertex: string]: number
 }
 
 class Graph {
-  private _startNode: string
+  private _startNode = ''
   private _vertexes = {}
-  private _nodes: IListNode = {}
-  private _passedNodes: any = {}
+  private _nodes: any = {}
+  private _dist: any = {}
+  private _prev: any = {}
 
-  constructor(startNode: string) {
+  set startNode(startNode: string) {
     this._startNode = startNode
-
-    this._nodes[this._startNode] = { ...this._nodes[this._startNode], ...{ [this._startNode]: 0 } }
   }
 
-  addEdge(fromVertex: string, toVertex: string, weight: number): void {
-    if (!this._nodes[fromVertex]) {
-      this._nodes[fromVertex] = { [toVertex]: weight }
-    } else {
-      this._nodes[fromVertex][toVertex] = weight
-    }
+  addEdge(fromVertex: string, nodes: INodeVertex): void {
+    for (const toVertex in nodes) {
+      if (!this._nodes[fromVertex]) {
+        this._nodes[fromVertex] = {}
+      }
 
-    if (!this._nodes[toVertex]) {
-      this._nodes[toVertex] = { [fromVertex]: weight }
-    } else {
-      this._nodes[toVertex][fromVertex] = weight
-    }
+      this._nodes[fromVertex][toVertex] = nodes[toVertex]
 
-    this._vertexes = { ...this._vertexes, ...{ [fromVertex]: true, [toVertex]: true } }
+      this._vertexes = { ...this._vertexes, ...{ [fromVertex]: true, [toVertex]: true } }
+    }
   }
 
   private dijkstra(): void {
-    console.log('dijkstra')
-
-    const d: any = {},
-      prev: any = {}
-    for (const vertex in this._nodes) {
-      d[vertex] = Number.MAX_VALUE
-      prev[vertex] = -1
+    for (const vertex in this._vertexes) {
+      this._dist[vertex] = Infinity
+      this._prev[vertex] = undefined
     }
 
-    d[this._startNode] = 0
+    this._dist[this._startNode] = 0
 
-    // for (const vertex of this.getVertexes()) {
-    //   this._passedNodes[vertex] = -1
-    // }
+    const Q = Object.keys(this._nodes)
+    while (Q.length > 0) {
+      let u = ''
 
-    // for (const vertex of this.getVertexes()) {
-    //   if (!this._passedNodes[k]) {
-    //     this._passedNodes[k] = {}
-    //   }
-    //   this._passedNodes[k][vertex] = -1
-    // }
-
-    for (const fromVertex in this._nodes) {
-      const i = this._nodes[fromVertex]
-      if (!this._passedNodes[fromVertex]) {
-        this._passedNodes[fromVertex] = {}
+      for (const min of Q) {
+        if (u === '' || (this._dist[min] && this._dist[min] < this._dist[u])) {
+          u = min
+        }
       }
 
-      for (const toVertex in i) {
-        const j = i[toVertex]
-        // if (fromVertex === this._startNode) {
-        //   this._passedNodes[k][fromVertex][toVertex] = j
-        // } else {
-        //   this._passedNodes[k][fromVertex][toVertex] = 0
-        // }
+      if (this._dist[u] === Infinity) {
+        break
+      }
 
-        this._passedNodes[fromVertex][toVertex] = j
+      Q.splice(Q.indexOf(String(u)), 1)
 
-        // if (!this._passedNodes[fromVertex]) {
-        //   this._passedNodes[fromVertex] = {}
-        // }
-        // this._passedNodes[fromVertex][toVertex] = this._nodes[fromVertex][toVertex]
+      for (const v in this._nodes[u]) {
+        const alt = this._dist[u] + this._nodes[u][v]
+        if (alt < this._dist[v]) {
+          this._dist[v] = alt
+          this._prev[v] = u
+        }
       }
     }
   }
 
-  getShortestPath(): void {
+  printPath(dest: string) {
+    if (this._prev[dest] != undefined) {
+      this.printPath(this._prev[dest])
+    }
+    console.log(`> ${dest}`)
+  }
+
+  getShortestPath(startNode: string): void {
+    this.startNode = startNode
+
     this.dijkstra()
 
-    console.log('getShortestPath')
-    for (const vertex of this.getVertexes()) {
-      console.log(`From ${this._startNode} to ${vertex}: ...`)
+    console.log(`Source: ${startNode}`)
+    for (const dest of this.getVertexes()) {
+      console.log(`\nTarget: ${dest}`)
+      this.printPath(dest)
+      if (this._dist[dest] != Infinity) {
+        console.log(`Distance: ${this._dist[dest]}`)
+      } else {
+        console.log('No path')
+      }
     }
   }
 
@@ -97,19 +88,11 @@ class Graph {
   }
 }
 
-const g = new Graph('A')
+const g = new Graph()
 
-g.addEdge('A', 'B', 5)
-g.addEdge('A', 'C', 3)
+g.addEdge('A', { B: 5, C: 3 })
+g.addEdge('B', { C: 4, D: 3, E: 4 })
+g.addEdge('C', { B: 2, D: 5, E: 6 })
+g.addEdge('E', { D: 2 })
 
-g.addEdge('B', 'C', 4)
-g.addEdge('B', 'D', 3)
-g.addEdge('B', 'E', 4)
-
-g.addEdge('C', 'B', 2)
-g.addEdge('C', 'D', 3)
-g.addEdge('C', 'E', 6)
-
-g.addEdge('E', 'D', 2)
-
-g.getShortestPath()
+g.getShortestPath('A')
