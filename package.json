@@ -13,26 +13,13 @@
     "url": "https://github.com/sonck201/algorithm"
   },
   "scripts": {
-    "build": "yarn ts:build",
-    "clean": "rimraf coverage dist logs",
-    "debug": "yarn build && yarn watch:debug",
     "lint": "yarn lint-ts",
     "lint-ts": "tsc --noEmit && eslint \"**/*.{js,ts}\" --ignore-path .gitignore .",
     "lint-ts:fix": "yarn lint-ts --quiet --fix",
-    "lint:fix": "yarn lint-ts:fix",
-    "node:watch": "nodemon --signal SIGHUP -r ts-node/register/transpile-only -r tsconfig-paths/register dist/server.js",
-    "prebuild": "yarn clean",
-    "serve": "node -r ./tsconfig-paths-bootstrap.js dist/server.js",
-    "serve:debug": "nodemon  --signal SIGHUP -r ts-node/register/transpile-only -r tsconfig-paths/register --inspect dist/server.js",
-    "start": "yarn serve",
-    "ts:build": "tsc",
-    "ts:watch": "tsc -w",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"yarn ts:watch\" \"yarn node:watch\"",
-    "watch:debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"yarn ts:watch\" \"yarn serve:debug\""
+    "lint:fix": "yarn lint-ts:fix"
   },
   "dependencies": {
     "bluebird": "^3.5.5",
-    "camelcase-keys": "^6.2.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -42,15 +29,12 @@
     "@types/node": "^14.14.25",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
-    "concurrently": "^5.0.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "faker": "^5.3.1",
-    "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
