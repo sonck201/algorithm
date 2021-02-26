@@ -59,7 +59,8 @@ class Dijkstra {
     if (this._prev[dest] != undefined) {
       this.printPath(this._prev[dest])
     }
-    console.log(`> ${dest}`)
+
+    process.stdout.write(`> ${dest} `)
   }
 
   getShortestPath(startNode: string): void {
@@ -72,9 +73,9 @@ class Dijkstra {
       console.log(`\nTarget: ${dest}`)
       this.printPath(dest)
       if (this._dist[dest] != Infinity) {
-        console.log(`Distance: ${this._dist[dest]}`)
+        console.log(`\nDistance: ${this._dist[dest]}`)
       } else {
-        console.log('No path')
+        console.log('\nNo path')
       }
     }
   }
