@@ -1,8 +1,4 @@
-type INodeVertex = {
-  [vertex: string]: number
-}
-
-class Graph {
+class Dijkstra {
   private _startNode = ''
   private _vertexes = {}
   private _nodes: any = {}
@@ -13,7 +9,7 @@ class Graph {
     this._startNode = startNode
   }
 
-  addEdge(fromVertex: string, nodes: INodeVertex): void {
+  addEdge(fromVertex: string, nodes: { [vertex: string]: number }): void {
     for (const toVertex in nodes) {
       if (!this._nodes[fromVertex]) {
         this._nodes[fromVertex] = {}
@@ -25,7 +21,7 @@ class Graph {
     }
   }
 
-  private dijkstra(): void {
+  private calculate(): void {
     for (const vertex in this._vertexes) {
       this._dist[vertex] = Infinity
       this._prev[vertex] = undefined
@@ -69,7 +65,7 @@ class Graph {
   getShortestPath(startNode: string): void {
     this.startNode = startNode
 
-    this.dijkstra()
+    this.calculate()
 
     console.log(`Source: ${startNode}`)
     for (const dest of this.getVertexes()) {
@@ -88,11 +84,11 @@ class Graph {
   }
 }
 
-const g = new Graph()
+const graphDijkstra = new Dijkstra()
 
-g.addEdge('A', { B: 5, C: 3 })
-g.addEdge('B', { C: 4, D: 3, E: 4 })
-g.addEdge('C', { B: 2, D: 5, E: 6 })
-g.addEdge('E', { D: 2 })
+graphDijkstra.addEdge('A', { B: 5, C: 3 })
+graphDijkstra.addEdge('B', { C: 4, D: 3, E: 4 })
+graphDijkstra.addEdge('C', { B: 2, D: 5, E: 6 })
+graphDijkstra.addEdge('E', { D: 2 })
 
-g.getShortestPath('A')
+graphDijkstra.getShortestPath('A')
