@@ -2,8 +2,8 @@ class BellmanFord {
   private _startNode = ''
   private _vertexes = {}
   private _nodes: any = {}
-  private _dist: any = {}
-  private _prev: any = {}
+  private _distance: any = {}
+  private _predecessor: any = {}
 
   set startNode(startNode: string) {
     this._startNode = startNode
@@ -22,11 +22,44 @@ class BellmanFord {
   }
 
   private calculate(): void {
-    console.log('BellmanFord')
+    // console.log('Step 1: initialize graph')
+    for (const vertex of Object.keys(this._vertexes)) {
+      this._distance[vertex] = Infinity
+      this._predecessor[vertex] = null
+    }
+
+    this._distance[this._startNode] = 0
+
+    // console.log('Step 2: relax edges repeatedly')
+    for (let i = 0; i < Object.keys(this._vertexes).length; i++) {
+      for (const u in this._nodes) {
+        for (const v in this._nodes[u]) {
+          const w = this._nodes[u][v]
+          if (this._distance[u] + w < this._distance[v]) {
+            this._distance[v] = this._distance[u] + w
+            this._predecessor[v] = u
+          }
+        }
+      }
+    }
+
+    // console.log('Step 3: check for negative-weight cycles')
+    for (const u in this._nodes) {
+      for (const v in this._nodes[u]) {
+        const w = this._nodes[u][v]
+        if (this._distance[u] + w < this._distance[v]) {
+          throw new Error('Graph contains a negative-weight cycle')
+        }
+      }
+    }
   }
 
   printPath(dest: string) {
-    console.log(`printPath: ${dest}`)
+    if (this._predecessor[dest] != null) {
+      this.printPath(this._predecessor[dest])
+    }
+
+    process.stdout.write(`> ${dest} `)
   }
 
   getShortestPath(startNode: string): void {
@@ -34,14 +67,14 @@ class BellmanFord {
 
     this.calculate()
 
-    console.log(`Source: ${startNode}`)
+    console.log(`Source: ${this._startNode}`)
     for (const dest of this.getVertexes()) {
       console.log(`\nTarget: ${dest}`)
       this.printPath(dest)
-      if (this._dist[dest] != Infinity) {
-        console.log(`Distance: ${this._dist[dest]}`)
+      if (this._distance[dest] != Infinity) {
+        console.log(`\nDistance: ${this._distance[dest]}`)
       } else {
-        console.log('No path')
+        console.log('\nNo path')
       }
     }
   }
