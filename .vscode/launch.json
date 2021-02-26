@@ -8,8 +8,21 @@
       "type": "node"
     },
     {
-      "name": "Algorithm dijkstra",
+      "name": "Algorithm Dijkstra",
       "program": "${workspaceFolder}/src/dijkstra.ts",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register/transpile-only",
+        "-r",
+        "tsconfig-paths/register",
+      ],
+      "type": "pwa-node",
+      "outputCapture": "std",
+    },
+    {
+      "name": "Algorithm Bellman-Ford",
+      "program": "${workspaceFolder}/src/bellman-ford.ts",
       "request": "launch",
       "runtimeArgs": [
         "-r",
