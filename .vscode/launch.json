@@ -33,6 +33,19 @@
       "type": "pwa-node",
       "outputCapture": "std",
     },
+    {
+      "name": "Algorithm Floyd Warshall",
+      "program": "${workspaceFolder}/src/floyd-warshall.ts",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register/transpile-only",
+        "-r",
+        "tsconfig-paths/register",
+      ],
+      "type": "pwa-node",
+      "outputCapture": "std",
+    },
   ],
   "version": "0.2.0"
 }
