@@ -59,6 +59,19 @@
       "type": "pwa-node",
       "outputCapture": "std",
     },
+    {
+      "name": "Pascal's triangle",
+      "program": "${workspaceFolder}/src/pascal-triangle.ts",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register/transpile-only",
+        "-r",
+        "tsconfig-paths/register",
+      ],
+      "type": "pwa-node",
+      "outputCapture": "std",
+    },
   ],
   "version": "0.2.0"
 }
