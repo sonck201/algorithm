@@ -1,13 +1,8 @@
 class FloydWarshall {
-  private _startNode = ''
   private _vertexes = {}
   private _nodes: any = {}
   private _dist: any = {}
   private _next: any = {}
-
-  set startNode(startNode: string) {
-    this._startNode = startNode
-  }
 
   addEdge(fromVertex: string, nodes: { [vertex: string]: number }): void {
     for (const toVertex in nodes) {
@@ -63,9 +58,9 @@ class FloydWarshall {
     //                 dist[i][j] ← dist[i][k] + dist[k][j]
     //                 next[i][j] ← next[i][k]
 
-    for (let k = 1; k <= Object.keys(this._nodes).length; k++) {
-      for (let i = 1; i <= Object.keys(this._nodes).length; i++) {
-        for (let j = 1; j <= Object.keys(this._nodes).length; j++) {
+    for (const k in this._nodes) {
+      for (const i in this._nodes) {
+        for (const j in this._nodes) {
           if (this._dist[i][j] > this._dist[i][k] + this._dist[k][j]) {
             this._dist[i][j] = this._dist[i][k] + this._dist[k][j]
             this._next[i][j] = this._next[i][k]
@@ -100,12 +95,12 @@ class FloydWarshall {
   getShortestPath(): void {
     this.calculate()
 
-    console.log(`Source: ${this._startNode}`)
+    console.table(this._dist)
+    console.table(this._next)
     for (const u in this._dist) {
       console.log(`\nTarget: ${u}`)
       for (const v in this._dist[u]) {
-        console.log(`${u} → ${v}::`, this._dist[u][v])
-        this.printPath(u, v)
+        console.log(this.printPath(u, v).join(' → '), '::', this._dist[u][v])
       }
     }
   }
@@ -117,9 +112,9 @@ class FloydWarshall {
 
 const graphFloydWarshall = new FloydWarshall()
 
-graphFloydWarshall.addEdge('1', { '3': -2 })
-graphFloydWarshall.addEdge('2', { '1': 4, '3': 3 })
-graphFloydWarshall.addEdge('3', { '4': 2 })
-graphFloydWarshall.addEdge('4', { '2': -1 })
+graphFloydWarshall.addEdge('A', { C: -2 })
+graphFloydWarshall.addEdge('B', { A: 4, C: 3 })
+graphFloydWarshall.addEdge('C', { D: 2 })
+graphFloydWarshall.addEdge('D', { B: -1 })
 
 graphFloydWarshall.getShortestPath()
