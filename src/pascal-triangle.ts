@@ -1,3 +1,7 @@
+/**
+ * C|1|2 = C|0|1 + C|1|1
+ * C|i|j = C|j-1|i-1 + C|j|i-1
+ */
 const convert = (k: number, n: number): number => {
   if (k === 0 || k === n) {
     return 1
