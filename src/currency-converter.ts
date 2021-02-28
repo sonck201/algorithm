@@ -25,15 +25,15 @@ const convertMoney = (listCurrency: number[], minExpected: number, myAmount: num
   return dp[myAmount]
 }
 
-const convertMoney2 = (W: number[], n: number, S: number) => {
+const convertMoney2 = (listCurrency: number[], minExpected: number, myAmount: number) => {
   const dp = [Number.MAX_VALUE]
 
-  for (let i = 0; i <= S; i++) {
+  for (let i = 0; i <= myAmount; i++) {
     dp[i] = Infinity
   }
 
-  for (let i = 0; i < n; i++) {
-    dp[W[i]] = 1
+  for (let i = 0; i < minExpected; i++) {
+    dp[listCurrency[i]] = 1
   }
 
   dp[0] = 0
@@ -42,15 +42,15 @@ const convertMoney2 = (W: number[], n: number, S: number) => {
   // For j = 0 to N - 1
   // If(Vj <= i AND Min[i - Vj] + 1 < Min[i])
   // Then Min[i] = Min[i - Vj] + 1
-  for (let i = 1; i <= S; i++) {
-    for (let j = 0; j < n; j++) {
-      if (W[j] <= i && dp[i - W[j]] + 1 < dp[i]) {
-        dp[i] = dp[i - W[j]] + 1
+  for (let i = 1; i <= myAmount; i++) {
+    for (let j = 0; j < minExpected; j++) {
+      if (listCurrency[j] <= i && dp[i - listCurrency[j]] + 1 < dp[i]) {
+        dp[i] = dp[i - listCurrency[j]] + 1
       }
     }
   }
 
-  return dp[S]
+  return dp[myAmount]
 }
 
 const outputToConsole = (listCurrency: number[], minExpected: number, myAmount: number) => {
