@@ -1,6 +1,5 @@
 class Dijkstra {
   private _startNode = ''
-  private _vertexes = {}
   private _nodes: any = {}
   private _dist: any = {}
   private _prev: any = {}
@@ -17,12 +16,14 @@ class Dijkstra {
 
       this._nodes[fromVertex][toVertex] = nodes[toVertex]
 
-      this._vertexes = { ...this._vertexes, ...{ [fromVertex]: true, [toVertex]: true } }
+      if (!this._nodes[toVertex]) {
+        this._nodes[toVertex] = {}
+      }
     }
   }
 
   private calculate(): void {
-    for (const vertex in this._vertexes) {
+    for (const vertex in this._nodes) {
       this._dist[vertex] = Infinity
       this._prev[vertex] = undefined
     }
@@ -60,7 +61,7 @@ class Dijkstra {
       this.printPath(this._prev[dest])
     }
 
-    process.stdout.write(`> ${dest} `)
+    process.stdout.write(`→ ${dest} `)
   }
 
   getShortestPath(startNode: string): void {
@@ -69,7 +70,8 @@ class Dijkstra {
     this.calculate()
 
     console.log(`Source: ${startNode}`)
-    for (const dest of this.getVertexes()) {
+    console.table(this._nodes)
+    for (const dest in this._nodes) {
       console.log(`\nTarget: ${dest}`)
       this.printPath(dest)
       if (this._dist[dest] != Infinity) {
@@ -78,10 +80,6 @@ class Dijkstra {
         console.log('\nNo path')
       }
     }
-  }
-
-  getVertexes() {
-    return Object.keys(this._vertexes)
   }
 }
 
