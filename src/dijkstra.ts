@@ -40,9 +40,9 @@ class Dijkstra {
         }
       }
 
-      if (this._dist[u] === Infinity) {
-        break
-      }
+      // if (this._dist[u] === Infinity) {
+      //   break
+      // }
 
       Q.splice(Q.indexOf(String(u)), 1)
 
@@ -90,4 +90,4 @@ graphDijkstra.addEdge('B', { C: 4, D: 3, E: 4 })
 graphDijkstra.addEdge('C', { B: 2, D: 5, E: 6 })
 graphDijkstra.addEdge('E', { D: 2 })
 
-graphDijkstra.getShortestPath('A')
+graphDijkstra.getShortestPath('B')
