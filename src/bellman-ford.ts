@@ -1,6 +1,5 @@
 class BellmanFord {
   private _startNode = ''
-  private _vertexes = {}
   private _nodes: any = {}
   private _distance: any = {}
   private _predecessor: any = {}
@@ -17,13 +16,15 @@ class BellmanFord {
 
       this._nodes[fromVertex][toVertex] = nodes[toVertex]
 
-      this._vertexes = { ...this._vertexes, ...{ [fromVertex]: true, [toVertex]: true } }
+      if (!this._nodes[toVertex]) {
+        this._nodes[toVertex] = {}
+      }
     }
   }
 
   private calculate(): void {
     // console.log('Step 1: initialize graph')
-    for (const vertex of Object.keys(this._vertexes)) {
+    for (const vertex of Object.keys(this._nodes)) {
       this._distance[vertex] = Infinity
       this._predecessor[vertex] = null
     }
@@ -31,7 +32,7 @@ class BellmanFord {
     this._distance[this._startNode] = 0
 
     // console.log('Step 2: relax edges repeatedly')
-    for (let i = 0; i < Object.keys(this._vertexes).length; i++) {
+    for (let i = 0; i < Object.keys(this._nodes).length; i++) {
       for (const u in this._nodes) {
         for (const v in this._nodes[u]) {
           const w = this._nodes[u][v]
@@ -59,7 +60,7 @@ class BellmanFord {
       this.printPath(this._predecessor[dest])
     }
 
-    process.stdout.write(`> ${dest} `)
+    process.stdout.write(`→ ${dest} `)
   }
 
   getShortestPath(startNode: string): void {
@@ -68,7 +69,10 @@ class BellmanFord {
     this.calculate()
 
     console.log(`Source: ${this._startNode}`)
-    for (const dest of this.getVertexes()) {
+    console.table(this._nodes)
+    console.table(this._predecessor)
+
+    for (const dest of Object.keys(this._nodes)) {
       console.log(`\nTarget: ${dest}`)
       this.printPath(dest)
       if (this._distance[dest] != Infinity) {
@@ -78,17 +82,13 @@ class BellmanFord {
       }
     }
   }
-
-  getVertexes() {
-    return Object.keys(this._vertexes)
-  }
 }
 
 const graphBellmanFord = new BellmanFord()
 
 graphBellmanFord.addEdge('A', { B: 3, E: 4 })
 graphBellmanFord.addEdge('B', { C: 2, D: 2, E: 9 })
-graphBellmanFord.addEdge('C', { B: -2 })
+graphBellmanFord.addEdge('C', { B: -3 })
 graphBellmanFord.addEdge('D', { C: 3 })
 graphBellmanFord.addEdge('E', { C: -5 })
 
